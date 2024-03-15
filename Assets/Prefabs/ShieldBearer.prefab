@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4431067257499387532}
   - component: {fileID: 2828139914523144005}
   - component: {fileID: 1975139148903380915}
+  - component: {fileID: 3730624415260399896}
   m_Layer: 0
   m_Name: ShieldBearer
   m_TagString: Untagged
@@ -187,6 +188,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &3730624415260399896
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416010588474289945}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3580315415327039441
 PrefabInstance:
   m_ObjectHideFlags: 0
