@@ -3,23 +3,28 @@ using UnityEngine;
 public class wasd_move_cam : MonoBehaviour
 {
     public GameObject cam;
-    public GameObject shield;
 
-    public float moveSpeed = 40f;
-    public float rotationSpeed = 0.01f;
+    public float moveSpeed = 0.02f;
+    public int rotationSpeed = 200;
+    
     // Start is called before the first frame update
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera");
-        shield = GameObject.FindGameObjectWithTag("shield");
-        cam.transform.position = this.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 currPos = cam.transform.position;
-        Quaternion currRot = this.transform.rotation;
+        var transform1 = transform;
+        var position = transform1.position;
+        var position1 = cam.transform.position;
+        
+        position1 = new Vector3(position.x, position.y, position1.z);
+        cam.transform.position = position1;
+
+        Vector3 currPos = position1;
+        Quaternion currRot = transform1.rotation;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
             transform.Rotate(new Vector3(0,0,-1) * (rotationSpeed * Time.deltaTime));
@@ -52,11 +57,5 @@ public class wasd_move_cam : MonoBehaviour
         }
 
         this.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, this.transform.position.z);
-        HandleShield();
-    }
-
-    void HandleShield()
-    {
-        Vector3 shieldPos = shield.transform.position;
     }
 }
