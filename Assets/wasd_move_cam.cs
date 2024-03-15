@@ -28,8 +28,6 @@ public class wasd_move_cam : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) 
         {
             Debug.Log("A pressed");
-            // camera.Transform.X(x+1)
-            // camera.Transform.x = 3
             cam.transform.position = new Vector3(currPos.x - this.moveSpeed, currPos.y, currPos.z);
         }
         if (Input.GetKey(KeyCode.D)) 
@@ -46,7 +44,8 @@ public class wasd_move_cam : MonoBehaviour
         {
             Debug.Log("S pressed");
             cam.transform.position = new Vector3(currPos.x , currPos.y - this.moveSpeed, currPos.z);
-
         }
+
+        this.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, this.transform.position.z);
     }
 }
