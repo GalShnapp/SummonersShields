@@ -18,12 +18,12 @@ public class wasd_move_cam : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(new Vector3(0,0,-1) * (rotationSpeed * Time.deltaTime));
+            transform.Rotate(new Vector3(0,0,1) * (rotationSpeed * Time.deltaTime));
             //Debug.Log("<-");
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(new Vector3(0,0,1) * (rotationSpeed * Time.deltaTime));
+            transform.Rotate(new Vector3(0,0,-1) * (rotationSpeed * Time.deltaTime));
             //Debug.Log("->");
         }
         if (Input.GetKey(KeyCode.A)) 
