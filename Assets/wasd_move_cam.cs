@@ -19,11 +19,13 @@ public class wasd_move_cam : MonoBehaviour
         Quaternion currRot = this.transform.rotation;
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            this.transform.rotation = new Quaternion(currRot.x, currRot.y, currRot.z + this.rotationSpeed, currRot.w);
+            transform.Rotate(new Vector3(0,0,-1) * (rotationSpeed * Time.deltaTime));
+            Debug.Log("<-");
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            this.transform.rotation = new Quaternion(currRot.x, currRot.y, currRot.z - this.rotationSpeed, currRot.w);
+            transform.Rotate(new Vector3(0,0,1) * (rotationSpeed * Time.deltaTime));
+            Debug.Log("->");
         }
         if (Input.GetKey(KeyCode.A)) 
         {
