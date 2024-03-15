@@ -29,12 +29,12 @@ public class wasd_move_cam : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) 
         {
             Debug.Log("A pressed");
-            transform.Translate(new Vector3(1,0,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(-1,0,0) * (moveSpeed * Time.deltaTime));
         }
         if (Input.GetKey(KeyCode.D)) 
         {
             Debug.Log("D pressed");
-            transform.Translate(new Vector3(-1,0,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(1,0,0) * (moveSpeed * Time.deltaTime));
         }
         if (Input.GetKey(KeyCode.W)) 
         {
