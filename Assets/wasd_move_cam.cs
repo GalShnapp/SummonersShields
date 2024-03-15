@@ -3,13 +3,16 @@ using UnityEngine;
 public class wasd_move_cam : MonoBehaviour
 {
     public GameObject cam;
+    public GameObject shield;
 
-    public float moveSpeed = 0.2f;
+    public float moveSpeed = 40f;
     public float rotationSpeed = 0.01f;
     // Start is called before the first frame update
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera");
+        shield = GameObject.FindGameObjectWithTag("shield");
+        cam.transform.position = this.transform.position;
     }
 
     // Update is called once per frame
@@ -49,5 +52,11 @@ public class wasd_move_cam : MonoBehaviour
         }
 
         this.transform.position = new Vector3(cam.transform.position.x, cam.transform.position.y, this.transform.position.z);
+        HandleShield();
+    }
+
+    void HandleShield()
+    {
+        Vector3 shieldPos = shield.transform.position;
     }
 }
