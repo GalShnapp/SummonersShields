@@ -23,7 +23,7 @@ public class wasd_move_cam : MonoBehaviour
     void Update()
     {
         var percent = _shieldComponent.weightPenaltyPercent / 100f;
-        var newSpeed = moveSpeed * percent;
+        var newSpeed = moveSpeed * (1 - percent);
         
         if (Input.GetKey(KeyCode.LeftArrow))
         {
