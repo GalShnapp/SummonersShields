@@ -17,6 +17,7 @@ public class shieldBehaviour : MonoBehaviour
     public float weight;
 
     public Animator animator;
+    public Vector3 whereDidILeaveMyShield;
     
     // Start is called before the first frame update
     void Start()
@@ -57,6 +58,11 @@ public class shieldBehaviour : MonoBehaviour
             animator.SetBool("isCharging", false);
             animator.SetBool("playerHasShield", true);
         }
+
+        if (!playerHasShield)
+        {
+            transform.position = whereDidILeaveMyShield;
+        }
     }
 
     void releaseShield(int chargeMeter)
@@ -65,5 +71,6 @@ public class shieldBehaviour : MonoBehaviour
         animator.SetBool("isCharging", false);
         animator.SetBool("playerHasShield", false);
         transform.Translate(0,1,0);
+        whereDidILeaveMyShield = transform.position;
     }
 }
