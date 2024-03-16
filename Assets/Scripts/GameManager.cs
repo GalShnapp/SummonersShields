@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
 {
     public static GameObject Instance { get; private set; }
-
-    private List<Collider> _colliders;
-    public GameObject colliders;
-
-    public Action respawn;
+    
     public Vector3 spawnPoint;
-    public GameObject player;
+    public GameObject playerPrefab;
+    public bool isAlive;
+
+    private GameObject player;
     
     protected void Awake() 
     { 
@@ -23,30 +23,32 @@ public class GameManager : MonoBehaviour
         { 
             Instance = gameObject; 
         }
-
-        _colliders = new List<Collider>();
     }
 
     protected void Start()
     {
-        InstantiatePlayer();
-        //FindColliders();
+        player = InstantiatePlayer();
     }
 
-    //private void FindColliders()
-    //{
-    //    throw new NotImplementedException();
-    //}
-
-    private void InstantiatePlayer()
+    protected void FixedUpdate()
     {
-        Instantiate(player, spawnPoint, Quaternion.identity);
+        if (!isAlive)
+        {
+            player = InstantiatePlayer();
+        }
     }
 
-    private void OnDeath()
+    private GameObject InstantiatePlayer()
     {
-        Destroy(player);
-        InstantiatePlayer();
+        var newPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
+        isAlive = true;
+
+        return newPlayer;
+    }
+    
+    public void OnDeath()
+    {
+        isAlive = false;
     }
 }
 
