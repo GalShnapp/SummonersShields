@@ -82,7 +82,7 @@ public class ShieldBehaviour : MonoBehaviour
         {
             shieldStatus = ShieldStatus.Out;
         }
-        else
+        else if (!equipStatus)
         {
             shieldStatus = ShieldStatus.Off;
         }
