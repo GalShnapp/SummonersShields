@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
 
     private void DestroyPlayer()
     {
-        Destroy(gameObject);
+        Destroy(_gameManager);
         _gameManager.OnDeath();
     }
 }
