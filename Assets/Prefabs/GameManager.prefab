@@ -203,9 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0331ee408b0014bcca1075cc8d35e61c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colliders: {fileID: 838511876185499505}
   spawnPoint: {x: -0.7, y: 0.35, z: 0}
-  player: {fileID: 1416010588474289945, guid: 0d174cf6d84de4769beb7d3ea614aea3, type: 3}
+  playerPrefab: {fileID: 1416010588474289945, guid: 0d174cf6d84de4769beb7d3ea614aea3, type: 3}
+  isAlive: 0
 --- !u!1 &5562095476702119132
 GameObject:
   m_ObjectHideFlags: 0
