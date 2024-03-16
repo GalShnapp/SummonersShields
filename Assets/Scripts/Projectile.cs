@@ -36,9 +36,7 @@ public class Projectile : MonoBehaviour
             myTransform.position = position;
 
             _stopWatchTime += Time.deltaTime;
-
-            Debug.Log("_stopWatchTime    " + _stopWatchTime);
-
+            
             yield return null;
         }
 

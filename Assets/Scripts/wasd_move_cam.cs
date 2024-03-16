@@ -4,41 +4,50 @@ public class wasd_move_cam : MonoBehaviour
 {
     public GameObject cam;
 
-    public int moveSpeed;
+    public float moveSpeed;
     public int rotationSpeed;
     
-    // Start is called before the first frame update
+    public ShieldBehaviour shieldBehaviour;
+    private ShieldBehaviour _shieldComponent;
+    
+    protected void Awake()
+    {
+        _shieldComponent = shieldBehaviour.GetComponent<ShieldBehaviour>();
+    }
+    
     void Start()
     {
         cam = GameObject.FindGameObjectWithTag("MainCamera");
     }
 
-    // Update is called once per frame
     void Update()
     {
+        var percent = _shieldComponent.weightPenaltyPercent / 100f;
+        var newSpeed = moveSpeed * percent;
+        
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            transform.Rotate(new Vector3(0,0,1) * (rotationSpeed * Time.deltaTime));
+            transform.Rotate(new Vector3(0,0,1 * newSpeed) * (rotationSpeed * Time.deltaTime));
         }
         if (Input.GetKey(KeyCode.RightArrow))
         {
-            transform.Rotate(new Vector3(0,0,-1) * (rotationSpeed * Time.deltaTime));
+            transform.Rotate(new Vector3(0,0,-1 * newSpeed) * (rotationSpeed * Time.deltaTime));
         }
         if (Input.GetKey(KeyCode.A)) 
         {
-            transform.Translate(new Vector3(-1,0,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(-1 * newSpeed,0,0) * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.D)) 
         {
-            transform.Translate(new Vector3(1,0,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(1 * newSpeed,0,0) * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.W)) 
         {
-            transform.Translate(new Vector3(0,1,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(0,1 * newSpeed,0) * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.S)) 
         {
-            transform.Translate(new Vector3(0,-1,0) * (moveSpeed * Time.deltaTime));
+            transform.Translate(new Vector3(0,-1 * newSpeed,0) * Time.deltaTime);
         }
 
         cam.transform.position = new Vector3(transform.position.x, transform.position.y, cam.transform.position.z);

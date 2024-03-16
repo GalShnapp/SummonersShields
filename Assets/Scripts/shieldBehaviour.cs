@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public enum ShieldStatus
 {
@@ -10,18 +12,18 @@ public enum ShieldStatus
     Charging
 }
 
-public class shieldBehaviour : MonoBehaviour
+public class ShieldBehaviour : MonoBehaviour
 {
     public ShieldStatus shieldStatus;
     public int chargeMeter;
-    public float weight;
+    public int weightPenaltyPercent;
 
     public Animator animator;
     public Vector3 whereDidILeaveMyShield;
     
-    // Start is called before the first frame update
     void Start()
     {
+        shieldStatus = ShieldStatus.Off;
         chargeMeter = 0;
         animator = GetComponent<Animator>();
     }
@@ -32,7 +34,7 @@ public class shieldBehaviour : MonoBehaviour
         bool equipStatus = animator.GetBool("isOn");
         bool chargingStatus = animator.GetBool("isCharging");
         bool playerHasShield = animator.GetBool("playerHasShield");
-
+        
         if (Input.GetKeyDown(KeyCode.Q) && playerHasShield)
         {
             animator.SetBool("isOn", !equipStatus);
@@ -63,9 +65,53 @@ public class shieldBehaviour : MonoBehaviour
         {
             transform.position = whereDidILeaveMyShield;
         }
+        
+        equipStatus = animator.GetBool("isOn");
+        chargingStatus = animator.GetBool("isCharging");
+        playerHasShield = animator.GetBool("playerHasShield");
+
+        if (equipStatus)
+        {
+            shieldStatus = ShieldStatus.On;
+        }
+        else if (chargingStatus)
+        {
+            shieldStatus = ShieldStatus.Charging;
+        }
+        else if (!playerHasShield)
+        {
+            shieldStatus = ShieldStatus.Out;
+        }
+        else
+        {
+            shieldStatus = ShieldStatus.Off;
+        }
     }
 
-    void releaseShield(int chargeMeter)
+    public float SetNewState()
+    {
+        switch (shieldStatus)
+        {
+            case ShieldStatus.Off:
+                weightPenaltyPercent = 0;
+                break;
+            case ShieldStatus.On:
+                weightPenaltyPercent = 50;
+                break;
+            case ShieldStatus.Out:
+                weightPenaltyPercent = 0;
+                break;
+            case ShieldStatus.Charging:
+                weightPenaltyPercent = 70;
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
+        }
+
+        return weightPenaltyPercent;
+    }
+    
+    private void releaseShield(int chargeMeter)
     {
         Debug.Log("release");
         animator.SetBool("isCharging", false);

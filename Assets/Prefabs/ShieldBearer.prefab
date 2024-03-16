@@ -103,6 +103,7 @@ MonoBehaviour:
   cam: {fileID: 0}
   moveSpeed: 1
   rotationSpeed: 200
+  shieldBehaviour: {fileID: 2795082992905977187}
 --- !u!114 &4431067257499387532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -248,6 +249,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9007f75cf17254623b089a97234567ab, type: 3}
+--- !u!114 &2795082992905977187 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1686022787959431858, guid: 9007f75cf17254623b089a97234567ab, type: 3}
+  m_PrefabInstance: {fileID: 3580315415327039441}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b48ea333117c472b80df42a2ee1336c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5465145864912571572 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8824747204714648421, guid: 9007f75cf17254623b089a97234567ab, type: 3}

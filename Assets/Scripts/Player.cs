@@ -3,8 +3,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private GameManager _gameManager;
-
-    private void Start()
+    
+    protected void Start()
     {
         _gameManager = GameManager.Instance.GetComponent<GameManager>();
     }
