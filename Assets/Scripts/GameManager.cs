@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public bool isAlive;
 
-    private GameObject player;
+    private GameObject _player;
     
     protected void Awake() 
     { 
@@ -27,17 +27,22 @@ public class GameManager : MonoBehaviour
 
     protected void Start()
     {
-        player = InstantiatePlayer();
+        _player = InstantiatePlayer();
     }
 
     protected void FixedUpdate()
     {
         if (!isAlive)
         {
-            player = InstantiatePlayer();
+            _player = InstantiatePlayer();
         }
     }
 
+    public Vector3 GetPlayerPosition()
+    {
+        return _player.transform.position;
+    }
+    
     private GameObject InstantiatePlayer()
     {
         var newPlayer = Instantiate(playerPrefab, spawnPoint, Quaternion.identity);
