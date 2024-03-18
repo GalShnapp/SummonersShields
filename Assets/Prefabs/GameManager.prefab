@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &84696611137392046
 Transform:
   m_ObjectHideFlags: 0
@@ -206,6 +206,7 @@ MonoBehaviour:
   spawnPoint: {x: -0.7, y: 0.35, z: 0}
   playerPrefab: {fileID: 1416010588474289945, guid: 0d174cf6d84de4769beb7d3ea614aea3, type: 3}
   isAlive: 0
+  projectilesContainer: {fileID: 0}
 --- !u!1 &5562095476702119132
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,12 +313,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: c5076917188864ecabfe03f857287b8f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c78dfac24b2994612af12ea755fdb9ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 8, y: 5.31}
+  m_Size: {x: 38.41154, y: 20.800001}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

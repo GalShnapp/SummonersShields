@@ -12,17 +12,21 @@ public class Projectile : MonoBehaviour
     private float _stopWatchTime;
     private GameObject _go;
     
-    public void Init(float lifetime, float projectileSpeed)
+    public void Init(float lifetime, float projectileSpeed, bool isUp)
     {
         _speed = projectileSpeed;
+        if (!isUp)
+        {
+            _speed = -_speed;
+        }
         _lifetime = lifetime;
+        FireProjectile(this.gameObject);
     }
 
     public void FireProjectile(GameObject shot)
     {
         _go = shot;
         StartCoroutine(ProjectileCoroutine());
-        Debug.Log("Projectile Fired");
     }
     
     IEnumerator ProjectileCoroutine()
@@ -31,7 +35,7 @@ public class Projectile : MonoBehaviour
         {
             var myTransform = _go.transform;
             var position = myTransform.position;
-            position = new Vector3(position.x, position.y + _speed, position.z);
+            position = new Vector3(position.x, position.y +_speed, position.z);
 
             myTransform.position = position;
 

@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public Vector3 spawnPoint;
     public GameObject playerPrefab;
     public bool isAlive;
+    
+    public Transform projectilesContainer;
 
     private GameObject _player;
     
@@ -54,6 +56,12 @@ public class GameManager : MonoBehaviour
     public void OnDeath()
     {
         isAlive = false;
+        MovePlayerToSpawnPoint();
+    }
+
+    private void MovePlayerToSpawnPoint()
+    {
+        _player.transform.position = spawnPoint;
     }
 }
 

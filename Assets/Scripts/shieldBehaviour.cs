@@ -60,7 +60,7 @@ public class ShieldBehaviour : MonoBehaviour
             animator.SetBool("isCharging", false);
             animator.SetBool("playerHasShield", true);
         }
-
+        
         if (!playerHasShield)
         {
             transform.position = whereDidILeaveMyShield;
@@ -109,6 +109,13 @@ public class ShieldBehaviour : MonoBehaviour
         }
 
         return weightPenaltyPercent;
+    }
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        // TODO detect projectile
+        Debug.Log("SHIELD COLLISION");
+        Destroy(other.gameObject);
     }
     
     private void releaseShield(int chargeMeter)
