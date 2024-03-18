@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 0}
-  moveSpeed: 5
+  moveSpeed: 0.002
   rotationSpeed: 200
   shieldBehaviour: {fileID: 2795082992905977187}
 --- !u!114 &4431067257499387532
