@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 5901929096315903479}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,6 +74,7 @@ MonoBehaviour:
   weightPenaltyPercent: 0
   animator: {fileID: 865076292803740090}
   whereDidILeaveMyShield: {x: 0, y: 0, z: 0}
+  whereDidIThrowMyShield: {x: 0, y: 0, z: 0}
 --- !u!50 &5584741337347304590
 Rigidbody2D:
   serializedVersion: 4
