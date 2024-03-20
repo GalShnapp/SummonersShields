@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,101 +9,109 @@ public enum ShieldStatus
 {
     Off,
     On,
-    Out,
-    Charging
+    Charging,
+    Flying,
+    Stuck
 }
 
 public class ShieldBehaviour : MonoBehaviour
 {
     public ShieldStatus shieldStatus;
+    private Transform player;
     public int chargeMeter;
     public int weightPenaltyPercent;
 
     public Animator animator;
     public Vector3 whereDidILeaveMyShield;
+    public Vector3 whereDidIThrowMyShield;
     
     void Start()
     {
+        player = this.transform.parent;
         shieldStatus = ShieldStatus.Off;
         chargeMeter = 0;
         animator = GetComponent<Animator>();
+        animator.SetBool("isOn", true);
     }
 
     // Update is called once per frame
     void Update()
     {
-        bool equipStatus = animator.GetBool("isOn");
-        bool chargingStatus = animator.GetBool("isCharging");
-        bool playerHasShield = animator.GetBool("playerHasShield");
-        
-        if (Input.GetKeyDown(KeyCode.Q) && playerHasShield)
+        // Equip unEquip shield
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            animator.SetBool("isOn", !equipStatus);
-            Debug.Log(animator.GetBool("isOn"));
+            if (shieldStatus == ShieldStatus.On)
+            {
+                shieldStatus = ShieldStatus.Off;
+            }
+            else if (shieldStatus == ShieldStatus.Off)
+            {
+                shieldStatus = ShieldStatus.On;
+            }
         }
 
-        if (Input.GetKey(KeyCode.Space) && equipStatus && playerHasShield)
+        // Start shield charge
+        if (Input.GetKey(KeyCode.Space) && shieldStatus == ShieldStatus.On)
         {
-            animator.SetBool("isCharging", true);
-            Debug.Log("is charging: ");
-            Debug.Log(animator.GetBool("isCharging"));
+            shieldStatus = ShieldStatus.Charging;
             chargeMeter++;
-            Debug.Log(chargeMeter);
+           // Debug.Log(chargeMeter);
         } 
-        else if (chargingStatus)
+        // Throw shield
+        else if (Input.GetButtonUp("Space") == true && shieldStatus == ShieldStatus.Charging)
         {
-            releaseShield(chargeMeter);
+            shieldStatus = ShieldStatus.Stuck;
+            ShieldThrow();
         }
-
+        
+        // Reset shield
         if (Input.GetKeyDown(KeyCode.R))
-        {
-            animator.SetBool("isOn", true);
-            animator.SetBool("isCharging", false);
-            animator.SetBool("playerHasShield", true);
-        }
-        
-        if (!playerHasShield)
-        {
-            transform.position = whereDidILeaveMyShield;
-        }
-        
-        equipStatus = animator.GetBool("isOn");
-        chargingStatus = animator.GetBool("isCharging");
-        playerHasShield = animator.GetBool("playerHasShield");
-
-        if (equipStatus)
         {
             shieldStatus = ShieldStatus.On;
         }
-        else if (chargingStatus)
+        
+        if (shieldStatus == ShieldStatus.Stuck)
         {
-            shieldStatus = ShieldStatus.Charging;
+            transform.position = whereDidIThrowMyShield;
         }
-        else if (!playerHasShield)
-        {
-            shieldStatus = ShieldStatus.Out;
-        }
-        else if (!equipStatus)
-        {
-            shieldStatus = ShieldStatus.Off;
-        }
-    }
 
+        SetNewState();
+    }
+    
     public float SetNewState()
     {
         switch (shieldStatus)
         {
             case ShieldStatus.Off:
                 weightPenaltyPercent = 0;
+                animator.SetBool("isOn", false);
+                this.gameObject.GetComponent<Collider2D>().enabled = false;
+                transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.black);
                 break;
             case ShieldStatus.On:
                 weightPenaltyPercent = 50;
-                break;
-            case ShieldStatus.Out:
-                weightPenaltyPercent = 0;
+                animator.SetBool("isOn", true);
+                animator.SetBool("playerHasShield", true);
+                this.gameObject.GetComponent<Collider2D>().enabled = true;
+                transform.GetChild(0).gameObject.GetComponent<Renderer>().material.SetColor("_Color", Color.white);
                 break;
             case ShieldStatus.Charging:
                 weightPenaltyPercent = 70;
+                animator.SetBool("isCharging", true);
+                break;
+            case ShieldStatus.Flying:
+                weightPenaltyPercent = 0;
+                animator.SetBool("isFlying", true);
+                animator.SetBool("isCharging", false);
+                animator.SetBool("playerHasShield", false);
+                animator.SetBool("isOn", false);
+                break;
+            case ShieldStatus.Stuck:
+                weightPenaltyPercent = 0;
+                animator.SetBool("isFlying", false);
+                animator.SetBool("isCharging", false);
+                animator.SetBool("playerHasShield", false);
+                animator.SetBool("isOn", false);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -111,19 +120,27 @@ public class ShieldBehaviour : MonoBehaviour
         return weightPenaltyPercent;
     }
     
-    private void OnTriggerEnter2D(Collider2D other)
+    private void ShieldThrow()
     {
-        // TODO detect projectile
-        Debug.Log("SHIELD COLLISION");
-        Destroy(other.gameObject);
+        whereDidIThrowMyShield = new Vector3(-15, 0, 0);
     }
     
-    private void releaseShield(int chargeMeter)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("release");
-        animator.SetBool("isCharging", false);
-        animator.SetBool("playerHasShield", false);
-        transform.Translate(0,1,0);
-        whereDidILeaveMyShield = transform.position;
+        if (other.gameObject.CompareTag("Hazard"))
+        {
+            Destroy(other.gameObject);
+        }
+        else if (other.gameObject.CompareTag("Player"))
+        {
+            PickupShield();
+        }
+    }
+
+    private void PickupShield()
+    {
+        Debug.Log("pickup");
+        //transform.SetParent(player);
+        shieldStatus = ShieldStatus.On;
     }
 }
