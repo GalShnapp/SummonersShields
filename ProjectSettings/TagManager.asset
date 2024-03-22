@@ -4,7 +4,10 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - shield
+  - Hazard
+  - Shield
+  - Summoner
+  - Shrine
   layers:
   - Default
   - TransparentFX
