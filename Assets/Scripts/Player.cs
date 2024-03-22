@@ -18,11 +18,16 @@ public class Player : MonoBehaviour
         {
             DestroyPlayer();
         }
+        else if (other.gameObject.CompareTag("Shrine"))
+        {
+            Debug.Log("Shrine");
+            _gameManager.MoveSummoner(other.gameObject.transform.position);
+        }
     }
 
     private void DestroyPlayer()
     {
-        Destroy(_gameManager);
+         Destroy(_gameManager);
         _gameManager.OnDeath();
     }
 }
