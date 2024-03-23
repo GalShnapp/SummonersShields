@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class GameManager : MonoBehaviour
@@ -11,9 +12,10 @@ public class GameManager : MonoBehaviour
     public GameObject playerPrefab;
     public GameObject summonerPrefab;
     public bool isAlive;
-    private bool needMoveSum;
+    private bool needMoveSum = false;
     public float summonerSpeed;
     public Transform projectilesContainer;
+    
 
     private float startTime;
     private float journeyLength;
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
     {
         if (needMoveSum)
         {
+            
             // Distance moved equals elapsed time times speed..
             float distCovered = (Time.time - startTime) * summonerSpeed;
 
@@ -52,6 +55,7 @@ public class GameManager : MonoBehaviour
         else 
         { 
             Instance = gameObject; 
+            
         }
     }
 
@@ -59,6 +63,7 @@ public class GameManager : MonoBehaviour
     {
         _player = InstantiatePlayer();
         _summoner = InstantiateSummoner();
+        Debug.Log("new ummonetw");
     }
 
     protected void FixedUpdate()
@@ -85,6 +90,7 @@ public class GameManager : MonoBehaviour
 
         // Calculate the journey length.
         journeyLength = Vector3.Distance(startingSumPos, endSumPos);
+        Debug.Log(journeyLength);
     }
     
     private GameObject InstantiatePlayer()
@@ -105,19 +111,7 @@ public class GameManager : MonoBehaviour
     
     public void OnDeath()
     {
-        isAlive = false;
-        MovePlayerToSpawnPoint();
-        MoveSummonerToSpawnPoint();
-    }
-    
-    private void MovePlayerToSpawnPoint()
-    {
-        _player.transform.position = spawnPoint;
-    }
-    
-    private void MoveSummonerToSpawnPoint()
-    {
-        _summoner.transform.position = spawnPoint;
+        SceneManager.LoadScene("myScene 1");
     }
 }
 

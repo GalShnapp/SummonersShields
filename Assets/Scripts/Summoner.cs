@@ -28,13 +28,12 @@ public class Summoner : MonoBehaviour
 
         if (other.gameObject.CompareTag("Shrine"))
         {
-            Debug.Log("Shrine Activate");
+            Debug.Log("Shrine Activated");
         }
     }
     
     private void DestroyPlayer()
     {
-        Destroy(_gameManager);
         _gameManager.OnDeath();
     }
 }

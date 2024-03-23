@@ -20,7 +20,12 @@ public class Gun : MonoBehaviour
     
     private void InitProjectile()
     {
-        var newProjectile = Instantiate(projectile, transform.position, transform.rotation, _gameManager.projectilesContainer);
+        var newProjectile = Instantiate(
+            projectile, 
+            transform.position, 
+            transform.rotation, 
+            _gameManager.projectilesContainer
+        );
         var myTransform = newProjectile.transform;
         
         //myTransform.position = new Vector3(pos.x, pos.y , pos.z);
