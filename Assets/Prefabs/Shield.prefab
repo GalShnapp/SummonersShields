@@ -70,8 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldStatus: 0
+  maxChargeTime: 1.5
+  throwSpeed: 5
   chargeMeter: 0
   weightPenaltyPercent: 0
+  throwPower: 9
   animator: {fileID: 865076292803740090}
   whereDidILeaveMyShield: {x: 0, y: 0, z: 0}
   whereDidIThrowMyShield: {x: 0, y: 0, z: 0}
@@ -88,7 +91,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 1
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}

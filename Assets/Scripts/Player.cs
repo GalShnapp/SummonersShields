@@ -11,6 +11,19 @@ public class Player : MonoBehaviour
         _shieldBehaviour = GameObject.FindGameObjectWithTag("Shield").GetComponent<ShieldBehaviour>();
     }
 
+    void Update()
+    {
+        PointToPlayer();
+    }
+
+    private void PointToPlayer()
+    {
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+        transform.up = direction;
+    }
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("COLLISION");

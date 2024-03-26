@@ -4,7 +4,6 @@ public class Gun : MonoBehaviour
 {
     public float timeBetweenShots;
     public bool isTargetingPlayer;
-
     public Projectile projectile;
     public float lifetime;
     public float projectileSpeed;
