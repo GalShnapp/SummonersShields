@@ -6,8 +6,8 @@ public class Gun : MonoBehaviour
     public bool isTargetingPlayer;
     public Projectile projectile;
     public float lifetime;
-    public float projectileSpeed;
-    public bool isUp;
+    public float projectileSpeed = 1;
+    public float startDelay;
     private float _stopWatchTime;
     
     private GameManager _gameManager;
@@ -25,12 +25,8 @@ public class Gun : MonoBehaviour
             transform.rotation, 
             _gameManager.projectilesContainer
         );
-        var myTransform = newProjectile.transform;
         
-        //myTransform.position = new Vector3(pos.x, pos.y , pos.z);
-        //myTransform.transform.Rotate(new Vector3(transform.rotation.eulerAngles.x,transform.rotation.eulerAngles.y, transform.rotation.eulerAngles.z));
-        
-        newProjectile.Init(lifetime, projectileSpeed, isUp);
+        newProjectile.Init(lifetime, projectileSpeed);
     }
     
     void FixedUpdate()

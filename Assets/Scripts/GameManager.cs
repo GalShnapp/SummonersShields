@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private bool needMoveSum = false;
     public float summonerSpeed;
     public Transform projectilesContainer;
-    
+    public string sceneName;
 
     private float startTime;
     private float journeyLength;
@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour
     
     public void OnDeath()
     {
-        SceneManager.LoadScene("myScene 1");
+        SceneManager.LoadScene(sceneName);
     }
 }
 

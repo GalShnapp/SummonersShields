@@ -17,9 +17,14 @@ public enum ShieldStatus
 public class ShieldBehaviour : MonoBehaviour
 {
     public ShieldStatus shieldStatus;
+    public float maxChargeTime = 1.5f;
+    public float throwSpeed;
     private Transform player;
-    public int chargeMeter;
+    public float chargeMeter;
     public int weightPenaltyPercent;
+    private Rigidbody2D rigidbody;
+    public float throwPower;
+    private float throwTimer;
 
     public Animator animator;
     public Vector3 whereDidILeaveMyShield;
@@ -31,12 +36,16 @@ public class ShieldBehaviour : MonoBehaviour
         shieldStatus = ShieldStatus.Off;
         chargeMeter = 0;
         animator = GetComponent<Animator>();
-        animator.SetBool("isOn", true);
+        rigidbody = GetComponent<Rigidbody2D>();
+        SetNewState();
+        GameManager position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        ShieldStatus oldStatus = shieldStatus;
+        
         // Equip unEquip shield
         if (Input.GetKeyDown(KeyCode.Q))
         {
@@ -49,33 +58,44 @@ public class ShieldBehaviour : MonoBehaviour
                 shieldStatus = ShieldStatus.On;
             }
         }
-
-        // Start shield charge
-        if (Input.GetKey(KeyCode.Space) && shieldStatus == ShieldStatus.On)
+        
+        if (shieldStatus == ShieldStatus.Flying)
         {
-            shieldStatus = ShieldStatus.Charging;
-            chargeMeter++;
-           // Debug.Log(chargeMeter);
+            //rigidbody.AddForce(transform.up * throwPower *- Time.deltaTime * 0.75f, ForceMode2D.Force);
+            throwTimer -= Time.deltaTime;
+            if (throwTimer <= 0)
+            {
+                Debug.Log("Done flying");
+                Debug.Log(throwTimer);
+                shieldStatus = ShieldStatus.Stuck;
+            }
+        }
+        
+        // Start shield charge
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (shieldStatus == ShieldStatus.On)
+            {
+                shieldStatus = ShieldStatus.Charging;
+            }
+            else if (shieldStatus == ShieldStatus.Charging)
+            {
+                chargeMeter += Time.deltaTime;
+            }
         } 
+        
         // Throw shield
         else if (Input.GetButtonUp("Space") == true && shieldStatus == ShieldStatus.Charging)
         {
-            shieldStatus = ShieldStatus.Stuck;
-            ShieldThrow();
-        }
-        
-        // Reset shield
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            shieldStatus = ShieldStatus.On;
-        }
-        
-        if (shieldStatus == ShieldStatus.Stuck)
-        {
-            transform.position = whereDidIThrowMyShield;
+            shieldStatus = ShieldStatus.Flying;
+            ShieldThrow(chargeMeter);
+            Debug.Log(chargeMeter);
         }
 
-        SetNewState();
+        if (shieldStatus != oldStatus)
+        {
+            SetNewState();
+        }
     }
     
     public float SetNewState()
@@ -112,6 +132,8 @@ public class ShieldBehaviour : MonoBehaviour
                 animator.SetBool("isCharging", false);
                 animator.SetBool("playerHasShield", false);
                 animator.SetBool("isOn", false);
+                rigidbody.isKinematic = true;
+                rigidbody.constraints = RigidbodyConstraints2D.FreezeAll;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
@@ -120,9 +142,22 @@ public class ShieldBehaviour : MonoBehaviour
         return weightPenaltyPercent;
     }
     
-    private void ShieldThrow()
+    private void ShieldThrow(float chargeTime)
     {
-        whereDidIThrowMyShield = new Vector3(-15, 0, 0);
+        transform.parent = null;
+        /*
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        whereDidIThrowMyShield = mousePosition;
+        */
+        rigidbody.isKinematic = false;
+        rigidbody.constraints = RigidbodyConstraints2D.None;
+        if (chargeTime >= maxChargeTime)
+        {
+            chargeTime = maxChargeTime;
+        }
+        throwTimer = chargeTime;
+        rigidbody.AddForce(transform.up * throwPower, ForceMode2D.Impulse);
     }
     
     private void OnTriggerEnter2D(Collider2D other)
@@ -140,7 +175,10 @@ public class ShieldBehaviour : MonoBehaviour
     private void PickupShield()
     {
         Debug.Log("pickup");
-        //transform.SetParent(player);
+        transform.SetParent(player);
+        transform.position = player.GetChild(0).position;
+        transform.up = player.transform.up;
         shieldStatus = ShieldStatus.On;
+        SetNewState();
     }
 }
